@@ -6,10 +6,12 @@ const NestedComments = () => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // ✅ Fetch comments from backend
   const fetchComments = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/comments");
+      const res = await fetch(`${API_URL}/comments`);
       const data = await res.json();
       setComments(data);
     } catch (err) {
@@ -25,7 +27,7 @@ const NestedComments = () => {
   const handleSubmit = async () => {
     if (!comment.trim()) return;
 
-    const res = await fetch("http://localhost:3000/api/comments", {
+    const res = await fetch(`${API_URL}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -42,7 +44,7 @@ const NestedComments = () => {
 
   // ✅ Add reply
   const handleReply = async (parentId, message) => {
-    const res = await fetch("http://localhost:3000/api/comments", {
+    const res = await fetch(`${API_URL}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message, username: "guest", parentId }),
@@ -53,7 +55,7 @@ const NestedComments = () => {
 
   // ✅ Edit comment
   const handleEdit = async (id, message) => {
-    await fetch(`http://localhost:3000/api/comments/${id}`, {
+    await fetch(`${API_URL}/comments/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message }),
@@ -63,7 +65,7 @@ const NestedComments = () => {
 
   // ✅ Delete comment
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:3000/api/comments/${id}`, {
+    await fetch(`${API_URL}/comments/${id}`, {
       method: "DELETE",
     });
     fetchComments();
