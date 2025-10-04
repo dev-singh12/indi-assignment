@@ -10,14 +10,15 @@ export const prisma = new PrismaClient();
 dotenv.config();
 
 const app = express();
-const PORT = process?.env?.PORT || 3000;
-const FRONTEND_URL = process?.env?.URL || "http://localhost:5173";
+const PORT = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.URL || "http://localhost:5173";
 
 app.use(
   cors({
-    origin: FRONTEND_URL, // ✅ comma hataya
+    origin: FRONTEND_URL,
     methods: ["GET", "POST", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type"],
+    credentials: true,
   })
 );
 
@@ -38,5 +39,5 @@ app.get("/health", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running`);
 });
