@@ -10,13 +10,25 @@ export const prisma = new PrismaClient();
 dotenv.config();
 
 const app = express();
-const PORT = process?.env?.PORT || 3000;
+const PORT = process.env.PORT || 3000;
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://indi-assignment-1v9i.vercel.app",
+];
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ comma hataya
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type"],
+    credentials: true,
   })
 );
 
@@ -37,5 +49,5 @@ app.get("/health", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running`);
 });
