@@ -2,11 +2,11 @@
 
 A full-stack application implementing a nested threaded comment system with real-time functionality. Users can create, edit, delete, and reply to comments in a hierarchical structure.
 
-## 🚀 Live Demo
+## Live Demo
 
 **Deployed Application:** [https://indi-assignment-6khs.onrender.com](https://indi-assignment-6khs.onrender.com)
 
-## 📋 Features
+## Features
 
 - **Nested Comment Threading**: Create unlimited levels of comment replies
 - **Real-time CRUD Operations**: Create, Read, Update, Delete comments
@@ -15,7 +15,7 @@ A full-stack application implementing a nested threaded comment system with real
 - **RESTful API**: Clean API endpoints for all comment operations
 - **CORS Configuration**: Properly configured for cross-origin requests
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 - **Node.js** - Runtime environment
@@ -34,7 +34,7 @@ A full-stack application implementing a nested threaded comment system with real
 - **Render** - Backend hosting
 - **Vercel** - Frontend hosting
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 
@@ -62,7 +62,7 @@ A full-stack application implementing a nested threaded comment system with real
 └── README.md
 ```
 
-## 🚀 Setup and Installation
+## Setup and Installation
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -133,7 +133,7 @@ A full-stack application implementing a nested threaded comment system with real
    npm run build
    ```
 
-## 📚 API Endpoints
+## API Endpoints
 
 ### Comments API (`/api/comments`)
 
@@ -166,7 +166,7 @@ POST /api/comments
 }
 ```
 
-## 🗄️ Database Schema
+## Database Schema
 
 ```prisma
 model Comment {
@@ -181,7 +181,7 @@ model Comment {
 }
 ```
 
-## 🔧 Assumptions and Design Decisions
+## Assumptions and Design Decisions
 
 ### Technical Assumptions
 - **Guest User System**: Currently uses "guest" as default username for simplicity
@@ -226,7 +226,7 @@ model Comment {
 
 This project is licensed under the ISC License.
 
-## 👨‍💻 Author
+## Author
 
 **Dev Kumar Singh**
 - GitHub: [@dev-singh12](https://github.com/dev-singh12)
