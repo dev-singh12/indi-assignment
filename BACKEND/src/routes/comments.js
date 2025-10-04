@@ -8,15 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get("/", getComments);
-
-// Create a new comment
-router.post("/", createComment);
-
-// Update a comment
-router.patch("/:id", updateComment);
-
-// Delete a comment
-router.delete("/:id", deleteComment);
+router.get("/", getComments); // Get all top-level comments
+router.post("/", createComment); // Create a comment
+router.patch("/:id", updateComment); // Update a comment
+router.delete("/:id", deleteComment); // Delete a comment
 
 export default router;

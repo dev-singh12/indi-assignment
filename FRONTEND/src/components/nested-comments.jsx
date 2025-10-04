@@ -1,52 +1,72 @@
-/* eslint-disable react/prop-types */
-import {useState} from "react";
-import useCommentTree from "../hooks/use-comment-tree";
+import { useEffect, useState } from "react";
 import Comment from "./comment";
 import "./styles.css";
 
-const NestedComments = ({
-  comments = [],
-  onSubmit = () => {},
-  onEdit = () => {},
-  onDelete = () => {},
-  // onUpvote = () => {},
-  // onDownvote = () => {},
-}) => {
+const NestedComments = () => {
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
 
-  const {
-    comments: commentsData,
-    insertComment,
-    editComment,
-    deleteComment,
-    // sortComments,
-    // upDownVoteComment,
-  } = useCommentTree(comments);
-
-  const handleReply = (commentId, content) => {
-    insertComment(commentId, content);
-    onSubmit(content);
+  // ✅ Fetch comments from backend
+  const fetchComments = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/comments");
+      const data = await res.json();
+      setComments(data);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
   };
 
-  const handleEdit = (commentId, content) => {
-    editComment(commentId, content);
-    onEdit(content);
-  };
+  useEffect(() => {
+    fetchComments();
+  }, []);
 
-  const handleDelete = (commentId) => {
-    deleteComment(commentId);
-    onDelete(commentId);
-  };
+  // ✅ Add new root comment
+  const handleSubmit = async () => {
+    if (!comment.trim()) return;
 
-  const handleEditChange = (e) => {
-    setComment(e.target.value);
-  };
+    const res = await fetch("http://localhost:3000/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: comment,
+        username: "guest", // later dynamic
+      }),
+    });
 
-  const handleSubmit = () => {
-    if (comment) {
-      handleReply(undefined, comment);
+    if (res.ok) {
+      await fetchComments(); // refresh
       setComment("");
     }
+  };
+
+  // ✅ Add reply
+  const handleReply = async (parentId, message) => {
+    const res = await fetch("http://localhost:3000/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, username: "guest", parentId }),
+    });
+
+    if (res.ok) fetchComments();
+  };
+
+  // ✅ Edit comment
+  const handleEdit = async (id, message) => {
+    await fetch(`http://localhost:3000/api/comments/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
+    fetchComments();
+  };
+
+  // ✅ Delete comment
+  const handleDelete = async (id) => {
+    await fetch(`http://localhost:3000/api/comments/${id}`, {
+      method: "DELETE",
+    });
+    fetchComments();
   };
 
   return (
@@ -54,7 +74,7 @@ const NestedComments = ({
       <div className="add-comment">
         <textarea
           value={comment}
-          onChange={handleEditChange}
+          onChange={(e) => setComment(e.target.value)}
           rows={3}
           cols={50}
           className="comment-textarea"
@@ -65,10 +85,11 @@ const NestedComments = ({
         </button>
       </div>
 
-      {commentsData.map((comment) => (
+      {/* ✅ Pass all handlers down */}
+      {comments.map((c) => (
         <Comment
-          key={comment.id}
-          comment={comment}
+          key={c.id}
+          comment={c}
           onSubmitComment={handleReply}
           onEditComment={handleEdit}
           onDeleteComment={handleDelete}

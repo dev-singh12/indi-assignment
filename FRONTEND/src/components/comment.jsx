@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import {useState} from "react";
+import { useState } from "react";
 
 const Comment = ({
   comment = {},
@@ -10,11 +10,9 @@ const Comment = ({
   const [expand, setExpand] = useState(false);
   const [replyContent, setReplyContent] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const [editedContent, setEditedContent] = useState(comment.content);
+  const [editedContent, setEditedContent] = useState(comment.message);
 
-  const toggleExpand = () => {
-    setExpand(!expand);
-  };
+  const toggleExpand = () => setExpand(!expand);
 
   const handleReplySubmit = () => {
     if (replyContent) {
@@ -25,7 +23,7 @@ const Comment = ({
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
-    setEditedContent(comment.content); // Reset edited content to current comment content
+    setEditedContent(comment.message); // reset with actual message
   };
 
   const handleChange = (e) => {
@@ -45,10 +43,14 @@ const Comment = ({
     <div className="comment">
       {!editMode ? (
         <>
-          <p className="comment-content">{comment.content}</p>
-          <p className="comment-info">Votes: {comment.votes}</p>
+          <p className="comment-content">{comment.message}</p>
           <p className="comment-info">
-            {new Date(comment.timestamp).toLocaleString()}
+            By <strong>{comment.username}</strong>
+          </p>
+          <p className="comment-info">
+            {comment.createdAt
+              ? new Date(comment.createdAt).toLocaleString()
+              : ""}
           </p>
         </>
       ) : (
@@ -99,7 +101,7 @@ const Comment = ({
               Submit Reply
             </button>
           </div>
-          {comment?.replies?.map((reply) => (
+          {comment?.children?.map((reply) => (
             <Comment
               key={reply.id}
               comment={reply}
