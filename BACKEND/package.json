@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./src/index.js",
     "start": "node ./dist/index.js",
-    "build": "esbuild ./src/index.js --bundle --outfile=dist/index.js --platform=node --target=node18",
+    "build": "rm -rf dist && mkdir dist && cp -r src/* dist/",
     "postinstall": "prisma generate"
   },
   "keywords": [],
@@ -21,8 +21,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
-    "prisma": "^6.16.3",
-    "esbuild": "^0.18.30"
+    "prisma": "^6.16.3"
   }
 }
-
