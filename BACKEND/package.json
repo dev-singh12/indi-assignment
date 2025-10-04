@@ -2,10 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "dev": "nodemon ./src/index.js",
-    "start": "node ./src/index.js"
+    "start": "node ./dist/index.js",
+    "build": "esbuild ./src/index.js --bundle --outfile=dist/index.js --platform=node --target=node18",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +21,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
-    "prisma": "^6.16.3"
+    "prisma": "^6.16.3",
+    "esbuild": "^0.18.30"
   }
 }
+
